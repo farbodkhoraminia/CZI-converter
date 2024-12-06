@@ -85,8 +85,9 @@ pip install -r requirements.txt
 python czi_converter.py
 
 # Logs are stored in the `logs` directory. Open the relevant `.log` file to track progress or troubleshoot errors.
-
+---
 ❓ FAQ
+```
 # Question: What should I do if the converter crashes while processing large files?
 # Answer: Reduce the number of threads in the `config.json` file or allocate more memory to your system.
 
