@@ -53,63 +53,75 @@ Converting large CZI files (>2GB) to TIFF is **notoriously challenging** due to:
 With **CZI Converter**, you can focus on your research and analysis, leaving the heavy lifting of file conversion to a reliable and efficient tool.
 
 ---
+# 🚀 Getting Started
 
-## 🚀 Getting Started
+## 📦 Installation Guide
 
-### 📦 Installation Guide
+Follow these steps to install and set up **CZI Converter**:
 
+### 1️⃣ Clone the Repository
 ```bash
-# 1️⃣ Clone the Repository
 git clone https://github.com/your_username/CZI_Converter.git
 cd CZI_Converter
+```
 
-# 2️⃣ Set Up a Virtual Environment (Optional but Recommended)
-# On Windows:
-python -m venv venv
-venv\Scripts\activate
+### 2️⃣ Set Up a Virtual Environment (Optional but Recommended)
+- **On Windows:**
+  ```bash
+  python -m venv venv
+  venv\Scripts\activate
+  ```
+- **On macOS/Linux:**
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
 
-# On macOS/Linux:
-python3 -m venv venv
-source venv/bin/activate
-
-# 3️⃣ Install Dependencies
-pip install -r requirements.txt
-
-# 4️⃣ Configure Input and Output Paths
-# Open the `config.json` file in your text editor and specify the input and output paths:
-# Example:
-# {
-#     "input_folder": "path/to/input_folder",
-#     "output_folder": "path/to/output_folder"
-# }
-
-# 5️⃣ Run the Converter
-python czi_converter.py
-
-# 📂 Logs are stored in the `logs` directory. Check the relevant `.log` file for progress updates or error troubleshooting.
-
----
-
-## ❓ FAQ & Troubleshooting
-
+### 3️⃣ Install Dependencies
 ```bash
-# ❓ Q: What should I do if the converter crashes on large files?
-# ✅ A: Reduce the number of threads in `config.json` or allocate more memory to your system.
-
-# ❓ Q: How do I fix missing dependencies?
-# ✅ A: Reinstall them with:
 pip install -r requirements.txt
+```
 
-# ❓ Q: Why is the conversion process slow?
-# ✅ A: Optimize system resources by:
-# - Checking your CPU and disk I/O usage.
-# - Adjusting thread count in `config.json`.
+### 4️⃣ Configure Input and Output Paths
+Open the `config.json` file in your text editor and specify the input and output paths.
 
-# ❓ Q: How can I modify advanced settings?
-# ✅ A: Edit the `config.json` file to:
-# - Adjust multi-threading levels.
-# - Change logging verbosity for detailed debugging.
-# - Optimize memory settings for large files.
+**Example:**
+```json
+{
+    "input_folder": "path/to/input_folder",
+    "output_folder": "path/to/output_folder"
+}
+```
 
-# ❓ Q: Where are my converted files stored?
-# ✅ A: Check the `output_folder` field in the `config.json` file for the directory path.
+### 5️⃣ Run the Converter
+```bash
+python czi_converter.py
+```
+
+📂 **Logs:** Conversion logs are stored in the `logs` directory. Check the relevant `.log` file for progress updates or troubleshooting errors.
+
+
+# ❓ FAQ & Troubleshooting
+
+### ❓ What should I do if the converter crashes on large files?
+✅ **Solution:** Reduce the number of threads in `config.json` or allocate more memory to your system.
+
+### ❓ How do I fix missing dependencies?
+✅ **Solution:** Reinstall all required dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### ❓ Why is the conversion process slow?
+✅ **Solution:** Optimize your system resources:
+- Check your CPU and disk I/O usage.
+- Adjust the thread count in `config.json`.
+
+### ❓ How can I modify advanced settings?
+✅ **Solution:** Customize the `config.json` file:
+- Adjust multi-threading levels for better performance.
+- Change logging verbosity for detailed debugging.
+- Optimize memory settings to handle large files.
+
+### ❓ Where are my converted files stored?
+✅ **Solution:** Converted files are saved in the directory specified in the `output_folder` field of the `config.json` file.
