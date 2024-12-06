@@ -45,8 +45,8 @@ Converting large CZI files (>2GB) to TIFF is **notoriously challenging** due to:
 **CZI Converter** is designed to **simplify and accelerate** the conversion of CZI files to TIFF, addressing the challenges head-on:
 
 - **Automated Workflow:** Monitors designated input folders and automatically processes new CZI files without manual intervention.
-- **Optimized Performance:** Utilizes multi-threading to handle large files efficiently, significantly reducing conversion time.
-- **Memory-Friendly:** Engineered to manage resources effectively, ensuring smooth operation even with hefty image sizes.
+- **Optimized Performance:** Uses multi-threading to handle large files efficiently, significantly reducing conversion time.
+- **Memory-Friendly:** Engineered to manage resources effectively, to operate smoothly even with large image sizes.
 - **User-Friendly Configuration:** Easy-to-edit configuration files allow customization to fit your specific environment and requirements.
 - **Comprehensive Logging:** Detailed logs keep you informed about the conversion status, errors, and progress, aiding in troubleshooting and optimization.
 
