@@ -56,7 +56,7 @@ With **CZI Converter**, you can focus on your research and analysis, leaving the
 
 ## 📦 **Installation**
 
-```bash
+```
 # Step 1: Clone the Repository
 git clone https://github.com/your_username/CZI_Converter.git
 cd CZI_Converter
@@ -74,7 +74,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Step 4: Configure Input and Output Paths
-# Open the `config.json` file in a text editor and specify the input and output paths:
+# Open the `config.json` file in a text editor and specify the input and output paths.
 # Example:
 # {
 #     "input_folder": "path/to/input_folder",
@@ -84,26 +84,24 @@ pip install -r requirements.txt
 # Step 5: Run the Converter
 python czi_converter.py
 
-# Step 6: Monitor the Logs
 # Logs are stored in the `logs` directory. Open the relevant `.log` file to track progress or troubleshoot errors.
 
-# Step 7: Stop the Converter
-# Use Ctrl+C in the terminal to stop the process.
+❓ FAQ
+# Question: What should I do if the converter crashes while processing large files?
+# Answer: Reduce the number of threads in the `config.json` file or allocate more memory to your system.
 
-# Step 8: Explore Advanced Configuration
-# - Adjust multi-threading levels in `config.json` for performance optimization.
-# - Modify logging verbosity in `config.json` for detailed error handling and debugging.
-# - Customize memory settings in `config.json` to handle large files more efficiently.
+# Question: How do I handle missing dependencies?
+# Answer: Run the following command to reinstall all required dependencies:
+pip install -r requirements.txt
 
-# Step 9: Troubleshooting
-# Memory Issues:
-# - Problem: Crashes when processing large files.
-# - Solution: Reduce multi-threading levels or allocate more memory in `config.json`.
+# Question: Why is the conversion process slow?
+# Answer: Check your system's CPU and disk I/O resources. You can also optimize the thread count in the `config.json` file.
 
-# Missing Dependencies:
-# - Problem: ModuleNotFoundError.
-# - Solution: Run `pip install -r requirements.txt` to reinstall dependencies.
+# Question: How do I modify advanced settings?
+# Answer: Edit the `config.json` file to:
+# - Adjust multi-threading levels for better performance.
+# - Modify the logging verbosity for detailed error handling and debugging.
+# - Customize memory settings to handle large files more efficiently.
 
-# Slow Conversion:
-# - Problem: Conversion speed is too slow.
-# - Solution: Check available CPU and I/O resources; ensure no bottlenecks.
+# Question: Where are the converted TIFF files stored?
+# Answer: Converted files are saved in the directory specified in the `output_folder` field of the `con
