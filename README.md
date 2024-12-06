@@ -56,7 +56,7 @@ With **CZI Converter**, you can focus on your research and analysis, leaving the
 
 ## 📦 **Installation**
 
-```
+```bash
 # Step 1: Clone the Repository
 git clone https://github.com/your_username/CZI_Converter.git
 cd CZI_Converter
@@ -87,22 +87,22 @@ python czi_converter.py
 # Logs are stored in the `logs` directory. Open the relevant `.log` file to track progress or troubleshoot errors.
 ---
 ❓ FAQ
-```
+```bash
 # Question: What should I do if the converter crashes while processing large files?
-# Answer: Reduce the number of threads in the `config.json` file or allocate more memory to your system.
+# Answer: Reduce the number of threads in the config.json file or allocate more memory to your system.
 
 # Question: How do I handle missing dependencies?
 # Answer: Run the following command to reinstall all required dependencies:
 pip install -r requirements.txt
 
 # Question: Why is the conversion process slow?
-# Answer: Check your system's CPU and disk I/O resources. You can also optimize the thread count in the `config.json` file.
+# Answer: Check your system's CPU and disk I/O resources. You can also optimize the thread count in the config.json file.
 
 # Question: How do I modify advanced settings?
-# Answer: Edit the `config.json` file to:
+# Answer: Edit the config.json file to:
 # - Adjust multi-threading levels for better performance.
 # - Modify the logging verbosity for detailed error handling and debugging.
 # - Customize memory settings to handle large files more efficiently.
 
 # Question: Where are the converted TIFF files stored?
-# Answer: Converted files are saved in the directory specified in the `output_folder` field of the `con
+# Answer: Converted files are saved in the directory specified in the output_folder field of the config.json file.
