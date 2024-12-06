@@ -54,69 +54,62 @@ With **CZI Converter**, you can focus on your research and analysis, leaving the
 
 ---
 
-🚀 Getting Started
-📦 Installation Guide
-Clone the Repository
+## 🚀 Getting Started
 
-bash
-Copy code
+### 📦 Installation Guide
+
+```bash
+# 1️⃣ Clone the Repository
 git clone https://github.com/your_username/CZI_Converter.git
 cd CZI_Converter
-Set Up a Virtual Environment (Optional but Recommended)
 
-Windows:
-bash
-Copy code
+# 2️⃣ Set Up a Virtual Environment (Optional but Recommended)
+# On Windows:
 python -m venv venv
 venv\Scripts\activate
-macOS/Linux:
-bash
-Copy code
+
+# On macOS/Linux:
 python3 -m venv venv
 source venv/bin/activate
-Install Dependencies
 
-bash
-Copy code
+# 3️⃣ Install Dependencies
 pip install -r requirements.txt
-Configure Input and Output Paths
-Open the config.json file in your favorite text editor and set the input and output paths:
 
-json
-Copy code
-{
-    "input_folder": "path/to/input_folder",
-    "output_folder": "path/to/output_folder"
-}
-Run the Converter
+# 4️⃣ Configure Input and Output Paths
+# Open the `config.json` file in your text editor and specify the input and output paths:
+# Example:
+# {
+#     "input_folder": "path/to/input_folder",
+#     "output_folder": "path/to/output_folder"
+# }
 
-bash
-Copy code
+# 5️⃣ Run the Converter
 python czi_converter.py
-🎯 Logs are stored in the logs directory. Check .log files for progress updates or troubleshooting.
 
-❓ FAQ & Troubleshooting
-🛠 Common Issues & Solutions
-💥 Converter crashes on large files?
-Reduce the number of threads in config.json or allocate more memory.
+# 📂 Logs are stored in the `logs` directory. Check the relevant `.log` file for progress updates or error troubleshooting.
 
-⚙ Missing dependencies?
-Reinstall them with:
+---
 
-bash
-Copy code
+## ❓ FAQ & Troubleshooting
+
+```bash
+# ❓ Q: What should I do if the converter crashes on large files?
+# ✅ A: Reduce the number of threads in `config.json` or allocate more memory to your system.
+
+# ❓ Q: How do I fix missing dependencies?
+# ✅ A: Reinstall them with:
 pip install -r requirements.txt
-🐌 Slow conversion process?
-Optimize system resources:
 
-Check CPU and disk I/O usage.
-Adjust thread count in config.json.
-🔧 Modify advanced settings?
-Customize config.json for:
+# ❓ Q: Why is the conversion process slow?
+# ✅ A: Optimize system resources by:
+# - Checking your CPU and disk I/O usage.
+# - Adjusting thread count in `config.json`.
 
-Multi-threading performance.
-Logging verbosity for debugging.
-Memory management for large files.
-📂 Where are my converted TIFF files?
-Files are saved in the directory specified in the output_folder field of config.json.
+# ❓ Q: How can I modify advanced settings?
+# ✅ A: Edit the `config.json` file to:
+# - Adjust multi-threading levels.
+# - Change logging verbosity for detailed debugging.
+# - Optimize memory settings for large files.
 
+# ❓ Q: Where are my converted files stored?
+# ✅ A: Check the `output_folder` field in the `config.json` file for the directory path.
