@@ -1,0 +1,6 @@
+requests
+numpy
+Pillow
+pma_python
+multiresolutionimageinterface
+PyYAML

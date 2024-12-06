@@ -1,0 +1,12 @@
+# config.yaml
+
+ASAP_BIN_PATH: "C:/Program Files/ASAP 2.2/bin"  # Path to ASAP's bin directory
+PMA_EXECUTABLE_PATH: "C:/Pathomation/PMA.start_converttif/Pathomation/Pathomation/pma.start.win/PMA.start.exe"  # Path to PMA executable
+INPUT_FOLDER: "data/input"  # Relative path to input folder
+OUTPUT_FOLDER: "data/output"  # Relative path to output folder
+PROCESSED_FILES_RECORD: "data/processed_files.txt"  # Relative path to processed files record
+LOG_FILE: "logs/conversion_automation.log"  # Relative path to log file
+CHECK_INTERVAL_SECONDS: 10  # Time interval (in seconds) to check for new files
+STALL_TIMEOUT_SECONDS: 2  # Time (in seconds) to detect a stall
+MAX_RETRIES: 3  # Maximum number of retries for fetching a tile
+WORKERS: 12  # Number of threads for processing tiles
