@@ -56,8 +56,54 @@ With **CZI Converter**, you can focus on your research and analysis, leaving the
 
 ## 📦 **Installation**
 
-### **1. Clone the Repository**
-
 ```bash
+# Step 1: Clone the Repository
 git clone https://github.com/your_username/CZI_Converter.git
 cd CZI_Converter
+
+# Step 2: Set Up a Virtual Environment (Optional but Recommended)
+# On Windows:
+python -m venv venv
+venv\Scripts\activate
+
+# On macOS/Linux:
+python3 -m venv venv
+source venv/bin/activate
+
+# Step 3: Install Dependencies
+pip install -r requirements.txt
+
+# Step 4: Configure Input and Output Paths
+# Open the `config.json` file in a text editor and specify the input and output paths:
+# Example:
+# {
+#     "input_folder": "path/to/input_folder",
+#     "output_folder": "path/to/output_folder"
+# }
+
+# Step 5: Run the Converter
+python czi_converter.py
+
+# Step 6: Monitor the Logs
+# Logs are stored in the `logs` directory. Open the relevant `.log` file to track progress or troubleshoot errors.
+
+# Step 7: Stop the Converter
+# Use Ctrl+C in the terminal to stop the process.
+
+# Step 8: Explore Advanced Configuration
+# - Adjust multi-threading levels in `config.json` for performance optimization.
+# - Modify logging verbosity in `config.json` for detailed error handling and debugging.
+# - Customize memory settings in `config.json` to handle large files more efficiently.
+
+# Step 9: Troubleshooting
+# Memory Issues:
+# - Problem: Crashes when processing large files.
+# - Solution: Reduce multi-threading levels or allocate more memory in `config.json`.
+
+# Missing Dependencies:
+# - Problem: ModuleNotFoundError.
+# - Solution: Run `pip install -r requirements.txt` to reinstall dependencies.
+
+# Slow Conversion:
+# - Problem: Conversion speed is too slow.
+# - Solution: Check available CPU and I/O resources; ensure no bottlenecks.
