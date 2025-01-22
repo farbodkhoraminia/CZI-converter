@@ -79,7 +79,7 @@ cd CZI_Converter
 
 ### 3️⃣ Install Dependencies
 ```bash
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ### 4️⃣ Configure Input and Output Paths
