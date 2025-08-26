@@ -61,7 +61,7 @@ Follow these steps to install and set up **CZI Converter**:
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your_username/CZI_Converter.git
+git clone https://github.com/farbodkhoraminia/CZI_Converter.git
 cd CZI_Converter
 ```
 
@@ -79,7 +79,7 @@ cd CZI_Converter
 
 ### 3️⃣ Install Dependencies
 ```bash
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ### 4️⃣ Configure Input and Output Paths
