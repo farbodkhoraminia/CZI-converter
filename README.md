@@ -61,7 +61,7 @@ Follow these steps to install and set up **CZI Converter**:
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/farbodkhoraminia/CZI_Converter.git
+git clone https://github.com/farbodkhoraminia/CZI-Converter.git
 cd CZI_Converter
 ```
 
