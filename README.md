@@ -2,7 +2,7 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python Version](https://img.shields.io/badge/Python-3.7%2B-blue.svg)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/your_username/CZI_Converter/CI)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/farbodkhoraminia/CZI-Converter/CI)
 
 ## 🌟 **Transforming High-Quality CZI Images into TIFF with Ease**
 
