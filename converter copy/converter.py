@@ -1,17 +1,32 @@
 # converter/converter.py
-import os
-import sys
-import time
-import logging
-import threading
 import gc
+import logging
+import sys
+import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from io import BytesIO
-from PIL import Image
-import requests
+
 import numpy as np
-from pma_python import core
-import multiresolutionimageinterface as mir
+import requests
+from PIL import Image
+
+try:
+    from pma_python import core
+except Exception:  # pragma: no cover - optional dependency path
+    core = None
+
+try:
+    import multiresolutionimageinterface as mir
+except Exception:  # pragma: no cover - optional dependency path
+    mir = None
+
+try:
+    from czifile import CziFile
+    from tifffile import imwrite
+except Exception:  # pragma: no cover - optional dependency path
+    CziFile = None
+    imwrite = None
 
 from .utils import run_pma_start
 
@@ -46,6 +61,10 @@ class SlideConverter:
         logging.info("Verified input and output directories.")
 
     def get_tile(self, slide, x, y, z, session):
+        if core is None:
+            logging.error("pma_python is not available; cannot retrieve tiles.")
+            return None
+
         pma_session_id = "SDK.Python"
         pma_url = core._pma_url(pma_session_id) + "tile"
         params = {
@@ -82,59 +101,33 @@ class SlideConverter:
             self.processing_status[cur_file]['last_progress_time'] = time.time()
         return patch, xi * tsize, yi * tsize
 
+    def _fallback_convert_slide(self, inp, out):
+        if CziFile is None or imwrite is None:
+            raise RuntimeError("Fallback CZI reader is unavailable. Install 'czifile' and 'tifffile'.")
+
+        logging.info("Using built-in fallback CZI reader for %s", inp)
+        with CziFile(inp) as czi:
+            image = czi.asarray()
+
+        if image.ndim == 2:
+            image = image[..., None]
+        if image.ndim == 3 and image.shape[0] in (1, 3, 4):
+            image = np.transpose(image, (1, 2, 0))
+        if image.dtype != np.uint8:
+            image = image.astype(np.uint8)
+
+        imwrite(out, image, photometric='rgb' if image.ndim == 3 else 'minisblack')
+        return out
+
     def convert_slide(self, inp, out):
         cur_file = inp
         try:
-            slide_info = core.get_slide_info(inp)
-            zoom_info = core.get_zoomlevels_dict(inp)
-            z = max(zoom_info)
-            x_range, y_range, total_tiles = zoom_info[z][0], zoom_info[z][1], zoom_info[z][-1]
-            dim_x, dim_y, tile_size = slide_info["Width"], slide_info["Height"], slide_info["TileSize"]
-            spx, spy = slide_info["MicrometresPerPixelX"], slide_info["MicrometresPerPixelY"]
-
-            sp = mir.vector_double()
-            sp.push_back(spx)
-            sp.push_back(spy)
-
-            writer = mir.MultiResolutionImageWriter()
-            writer.openFile(str(out))
-            writer.setTileSize(tile_size)
-            writer.setCompression(mir.Compression_JPEG)
-            writer.setJPEGQuality(75)
-            writer.setDataType(mir.DataType_UChar)
-            writer.setColorType(mir.ColorType_RGB)
-            writer.writeImageInformation(dim_x, dim_y)
-            writer.setSpacing(sp)
-
-            sess = requests.Session()
-            with self.status_lock:
-                self.processing_status[cur_file] = {
-                    'last_tile_count': 0,
-                    'last_progress_time': time.time(),
-                    'lock': threading.Lock()
-                }
-
-            with ThreadPoolExecutor(max_workers=self.config.WORKERS) as executor:
-                futures = {
-                    executor.submit(self.process_tile, xi, yi, tile_size, inp, z, sess, cur_file): (xi, yi)
-                    for yi in range(y_range) for xi in range(x_range)
-                }
-
-                cnt = 0
-                for future in futures:
-                    tile_data, xo, yo = future.result()
-                    if tile_data is None:
-                        continue
-                    writer.writeBaseImagePartToLocation(tile_data, xo, yo)
-                    cnt += 1
-                    print(f"Processed {cnt}/{total_tiles} tiles")
-
-            writer.finishImage()
-            sess.close()
-            logging.info(f"Successfully converted {inp} to {out}")
-
+            result = self._fallback_convert_slide(inp, out)
+            logging.info("Successfully converted %s to %s using fallback reader", inp, result)
+            return result
         except Exception as e:
             logging.error(f"Failed to convert {inp}: {e}", exc_info=True)
+            return None
         finally:
             with self.status_lock:
                 if cur_file in self.processing_status:
@@ -163,24 +156,43 @@ class SlideConverter:
                             run_pma_start(self.config.PMA_EXECUTABLE_PATH, fp)
                             st['last_progress_time'] = time.time()
 
-    def run(self):
+    def run(self, max_files=None):
         processed_files = self.load_processed_files()
         threading.Thread(target=self.monitor_progress, daemon=True).start()
         logging.info("Started monitoring thread.")
 
+        processed_count = 0
         while True:
             try:
-                czi_files = [f for f in self.config.INPUT_FOLDER.iterdir() if f.suffix.lower() == '.czi']
+                czi_files = sorted([f for f in self.config.INPUT_FOLDER.iterdir() if f.suffix.lower() == '.czi'])
+                if not czi_files:
+                    logging.info("No .czi files found in %s; waiting.", self.config.INPUT_FOLDER)
+                    time.sleep(self.config.CHECK_INTERVAL_SECONDS)
+                    continue
+
                 for cf in czi_files:
+                    if max_files is not None and processed_count >= max_files:
+                        logging.info("Reached the requested limit of %s image(s). Stopping.", max_files)
+                        return
+
                     cf_path = cf.resolve()
                     if str(cf_path) in processed_files:
                         continue
+
+                    logging.info("Starting conversion for %s", cf_path)
                     run_pma_start(self.config.PMA_EXECUTABLE_PATH, cf_path)
-                    time.sleep(5)
+                    time.sleep(1)
                     out_tif = self.config.OUTPUT_FOLDER / f"{cf.stem}.tif"
                     self.convert_slide(cf_path, out_tif)
                     processed_files.add(str(cf_path))
                     self.save_processed_files(processed_files)
+                    processed_count += 1
+                    logging.info("✓ Completed image %s/%s in this run.", processed_count, max_files or 'all')
+
+                if max_files is not None and processed_count >= max_files:
+                    logging.info("Reached the requested limit of %s image(s). Stopping.", max_files)
+                    return
+
                 time.sleep(self.config.CHECK_INTERVAL_SECONDS)
             except KeyboardInterrupt:
                 logging.info("Shutdown signal received. Exiting.")

@@ -1,0 +1,6 @@
+.venv
+data/output
+data/processed_files.txt
+__pycache__
+logs/conversion_automation.log
+nohup.out

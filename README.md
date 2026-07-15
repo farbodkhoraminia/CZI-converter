@@ -62,7 +62,7 @@ Follow these steps to install and set up **CZI Converter**:
 ### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/farbodkhoraminia/CZI-Converter.git
-cd CZI_Converter
+cd CZI-converter
 ```
 
 ### 2️⃣ Set Up a Virtual Environment (Optional but Recommended)
@@ -79,23 +79,68 @@ cd CZI_Converter
 
 ### 3️⃣ Install Dependencies
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
 pip install -r requirement.txt
 ```
 
-### 4️⃣ Configure Input and Output Paths
-Open the `config.json` file in your text editor and specify the input and output paths.
+> On Ubuntu, the converter now tries the common PMA installation locations automatically and also checks your PATH. A manual override in `config.yaml` is still supported.
+
+### 4️⃣ Configure the Application
+Open the `config.yaml` file in your text editor and set the paths for your platform.
 
 **Example:**
-```json
-{
-    "input_folder": "path/to/input_folder",
-    "output_folder": "path/to/output_folder"
-}
+```yaml
+ASAP_BIN_PATH:
+  windows: "C:/Program Files/ASAP 2.2/bin"
+  linux: "/opt/asap/bin"
+  ubuntu: "/opt/asap/bin"
+
+PMA_EXECUTABLE_PATH:
+  windows: "C:/Pathomation/PMA.start_converttif/Pathomation/Pathomation/pma.start.win/PMA.start.exe"
+  linux: "/opt/pathomation/PMA.start"
+  ubuntu: "/opt/pathomation/PMA.start"
+
+INPUT_FOLDER: "data/input"
+OUTPUT_FOLDER: "data/output"
 ```
+
+Relative paths are resolved from the project root, so the default `data/input` and `data/output` folders will work on both Windows and Ubuntu.
+
+#### Windows example
+```yaml
+ASAP_BIN_PATH:
+  windows: "C:/Program Files/ASAP 2.2/bin"
+PMA_EXECUTABLE_PATH:
+  windows: "C:/Pathomation/PMA.start_converttif/Pathomation/Pathomation/pma.start.win/PMA.start.exe"
+```
+
+#### Ubuntu example
+```yaml
+ASAP_BIN_PATH:
+  ubuntu: "/opt/asap/bin"
+PMA_EXECUTABLE_PATH:
+  ubuntu: "/opt/pathomation/PMA.start"
+WORKERS: 16
+```
+
+#### Ubuntu performance tips
+- Use the machine's available CPU count automatically by leaving `WORKERS` unset; the converter will select a sensible value.
+- If your system has many cores, a value in the range `8-32` is often a good starting point.
+- Ensure the PMA executable is either installed under `/opt/pathomation/PMA.start`, available in your PATH, or explicitly set in `config.yaml`.
+- If PMA is unavailable, the converter now falls back to a local CZI reader using `czifile` and `tifffile`, which works well on Ubuntu for basic conversion.
 
 ### 5️⃣ Run the Converter
 ```bash
-python czi_converter.py
+python main.py
+```
+
+You can also override the input folder from the terminal for a single run:
+```bash
+python main.py /path/to/your/input-folder
+# or
+python main.py --input-folder /path/to/your/input-folder
 ```
 
 📂 **Logs:** Conversion logs are stored in the `logs` directory. Check the relevant `.log` file for progress updates or troubleshooting errors.
@@ -104,24 +149,25 @@ python czi_converter.py
 # ❓ FAQ & Troubleshooting
 
 ### ❓ What should I do if the converter crashes on large files?
-✅ **Solution:** Reduce the number of threads in `config.json` or allocate more memory to your system.
+✅ **Solution:** Reduce the number of threads in `config.yaml` by lowering `WORKERS`, or allocate more memory to your system.
 
 ### ❓ How do I fix missing dependencies?
 ✅ **Solution:** Reinstall all required dependencies:
 ```bash
-pip install -r requirements.txt
+pip install -r requirement.txt
 ```
 
 ### ❓ Why is the conversion process slow?
 ✅ **Solution:** Optimize your system resources:
 - Check your CPU and disk I/O usage.
-- Adjust the thread count in `config.json`.
+- Adjust the thread count in `config.yaml` using `WORKERS`.
+- On Ubuntu, leave `WORKERS` unset to let the converter auto-select a value based on the machine's CPU count.
 
 ### ❓ How can I modify advanced settings?
-✅ **Solution:** Customize the `config.json` file:
+✅ **Solution:** Customize the `config.yaml` file:
 - Adjust multi-threading levels for better performance.
-- Change logging verbosity for detailed debugging.
-- Optimize memory settings to handle large files.
+- Change the polling interval with `CHECK_INTERVAL_SECONDS`.
+- Tune stall detection with `STALL_TIMEOUT_SECONDS`.
 
 ### ❓ Where are my converted files stored?
-✅ **Solution:** Converted files are saved in the directory specified in the `output_folder` field of the `config.json` file.
+✅ **Solution:** Converted files are saved in the directory specified by `OUTPUT_FOLDER` in `config.yaml`.
